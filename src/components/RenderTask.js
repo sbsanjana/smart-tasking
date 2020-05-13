@@ -8,7 +8,8 @@ const RenderTask = props => {
                 <Task
                     task={task}
                     key={id}
-                    toggleComplete={props.markComplete}/>
+                    toggleComplete={props.markComplete}
+                    />
                 ))}
         </div>
        

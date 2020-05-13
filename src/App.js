@@ -7,6 +7,7 @@ import TaskList from './components/TaskList'
 import RenderTask from './components/RenderTask';
 import {Form, Input, Button,Card, Grid,  Rating, Segment} from 'semantic-ui-react'
 import { ConsoleWriter } from 'istanbul-lib-report';
+import { PropTypes } from 'react'
 
 
 
@@ -27,6 +28,7 @@ class App extends React.Component {
   this.handleChange = this.handleChange.bind(this);
   this.addTask = this.addTask.bind(this);
   this.handleChangeOnRate = this.handleChangeOnRate.bind(this);
+  this.markComplete = this.markComplete.bind(this);
 
 
   }
@@ -35,7 +37,7 @@ class App extends React.Component {
     this.setState({value: event.target.value});
   }
 
-  addTask(data) {
+  addTask() {
     let nTask = {
       name: this.state.value,
       id: Date.now(),
@@ -43,27 +45,31 @@ class App extends React.Component {
       completed: false
     };
     this.setState(
+      
       { tasks: [...this.state.tasks, nTask]});
   }
 
-  markComplete = itemId => {
+  markComplete( taskitem ) {
     const tasks = this.state.tasks.map(task => {
-      if (task.id === itemId) {
+      if (task.id === taskitem) {
         task.completed = !task.completed
       }
       return task
     });
     this.setState({tasks, task: ''})
+    // this.forceUpdate();
   }
   removeItems = event => {
-    event.preventDefault();
-    this.setState(prevState => {
-      return {
-        tasks: prevState.task.filter(task => {
-          return !task.completed;
-        })
-      }
-    })
+
+
+    // event.preventDefault();
+    // this.setState(prevState => {
+    //   return {
+    //     tasks: prevState.task.filter(task => {
+    //       return !task.completed;
+    //     })
+    //   }
+    // })
   }
 
   handleChangeOnRate(e, { rating }) {
@@ -94,6 +100,8 @@ class App extends React.Component {
       </div>
       <TaskList 
       tasks={this.state.tasks}
+      rate={this.state.rate}
+      parentMethod = {this.markComplete}
       />
       </div>
     );
