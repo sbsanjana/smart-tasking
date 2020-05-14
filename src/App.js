@@ -5,7 +5,7 @@ import './components/RenderTask';
 import './components/Task'
 import TaskList from './components/TaskList'
 import RenderTask from './components/RenderTask';
-import {Form, Input, Button,Card, Grid,  Rating, Segment} from 'semantic-ui-react'
+import {Form, Input, Header, Icon, Button,Card, Grid,  Rating, Segment} from 'semantic-ui-react'
 import { ConsoleWriter } from 'istanbul-lib-report';
 import { PropTypes } from 'react'
 
@@ -33,11 +33,20 @@ class App extends React.Component {
 
   }
 
+  componentDidMount() {
+    document.body.style.backgroundColor = '#D9ECEF';
+    const tasks = localStorage.getItem("tasks");
+    if (tasks) this.setState({ tasks: JSON.parse(tasks) });
+    //D9FFFF';
+
+  }
+
   handleChange(event) {
     this.setState({value: event.target.value});
   }
 
   addTask() {
+    this.setState({value: ''});
     let nTask = {
       name: this.state.value,
       id: Date.now(),
@@ -46,7 +55,12 @@ class App extends React.Component {
     };
     this.setState(
       
-      { tasks: [...this.state.tasks, nTask]});
+      { tasks: [...this.state.tasks, nTask]},
+    
+    () => {
+      localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    }
+      );
   }
 
   markComplete( taskitem ) {
@@ -56,21 +70,14 @@ class App extends React.Component {
       }
       return task
     });
-    this.setState({tasks, task: ''})
+    this.setState({tasks, task: ''},
+    () => {
+      localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+    }
+    )
     // this.forceUpdate();
   }
-  removeItems = event => {
-
-
-    // event.preventDefault();
-    // this.setState(prevState => {
-    //   return {
-    //     tasks: prevState.task.filter(task => {
-    //       return !task.completed;
-    //     })
-    //   }
-    // })
-  }
+  
 
   handleChangeOnRate(e, { rating }) {
     e.preventDefault();
@@ -78,15 +85,20 @@ class App extends React.Component {
       {rating: rating}
     );
   }
-  //   this.setState (
-  //   {rating: event.target.value});
-  // }
+  
   
   render() {
     return (
       <div>
-        <div className="App">
-        <h1>Smart-Tasking</h1>
+        <div className="App" style={{marginTop:10}} >
+        <Header as='h1' icon inverted textAlign='center' style={{color:'#2B4162'}}>
+      <Icon name='sort amount up' style={{color:'#2B4162'}} />
+      SmartTasking
+      <Header.Subheader style={{color:'#2B4162'}}>
+      To begin, simply enter the task you need to complete, rank its level of importance, and press "Enter."      </Header.Subheader>
+    </Header>
+        {/* <h1 style={{color:'#2B4162'}}>Smart-Tasking</h1>
+        <p style={{color:'#2B4162', fontSize:'large'}}>To begin, simply enter the task you need to complete, rank its level of importance, and press "Enter."</p> */}
         <Form>
         <Input id="form" type="text" placeholder="Add a task..." value={this.state.value} style={{marginBottom:25}}onChange={this.handleChange} />
         <Rating
@@ -95,7 +107,7 @@ class App extends React.Component {
           maxRating={5}
           icon='star'
         />
-          <button class="ui button" style={{marginLeft:5, marginBottom:25}} onClick={this.addTask}>Click Here</button>
+          <button class="ui button" style={{marginLeft:5, marginBottom:25}} onClick={this.addTask}>Enter</button>
           </Form>
       </div>
       <TaskList 
