@@ -16,6 +16,7 @@ class App extends React.Component {
     super(props)
     this.state = {
       value: '',
+      desc: '',
       rating:0,
       tasks:[{
       // name: '',
@@ -29,6 +30,7 @@ class App extends React.Component {
   this.addTask = this.addTask.bind(this);
   this.handleChangeOnRate = this.handleChangeOnRate.bind(this);
   this.markComplete = this.markComplete.bind(this);
+  this.handleChangeDesc = this.handleChangeDesc.bind(this);
 
 
   }
@@ -44,13 +46,19 @@ class App extends React.Component {
   handleChange(event) {
     this.setState({value: event.target.value});
   }
+  handleChangeDesc(event) {
+    this.setState({desc: event.target.value});
+  }
 
   addTask() {
     this.setState({value: ''});
+    this.setState({desc: ''});
+
     let nTask = {
       name: this.state.value,
       id: Date.now(),
       rating: this.state.rating,
+      desc: this.state.desc,
       completed: false
     };
     this.setState(
@@ -84,6 +92,7 @@ class App extends React.Component {
     this.setState(
       {rating: rating}
     );
+    
   }
   
   
@@ -101,13 +110,18 @@ class App extends React.Component {
         <p style={{color:'#2B4162', fontSize:'large'}}>To begin, simply enter the task you need to complete, rank its level of importance, and press "Enter."</p> */}
         <Form>
         <Input id="form" type="text" placeholder="Add a task..." value={this.state.value} style={{marginBottom:25}}onChange={this.handleChange} />
+      
+        <Input id="form" type="text" placeholder="Add a description..." value={this.state.desc} style={{marginBottom:25}}onChange={this.handleChangeDesc} />
         <Rating
           rating={this.rating}
           onRate={this.handleChangeOnRate}
           maxRating={5}
           icon='star'
-        />
+        /> 
+        
           <button class="ui button" style={{marginLeft:5, marginBottom:25}} onClick={this.addTask}>Enter</button>
+       
+          
           </Form>
       </div>
       <TaskList 

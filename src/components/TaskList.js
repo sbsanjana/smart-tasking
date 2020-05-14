@@ -29,9 +29,11 @@ class TaskList extends React.Component {
                     <Grid.Column>
                         <Card style={{marginBottom:15, textAlign:'center'}}>
                             <Card.Content>
-                                <Card.Description>
+                                <Card.Header>
                                     <h2>{task.name}</h2>
-                                    
+                                </Card.Header>
+                                <Card.Description>
+                                    <h4>{task.desc}</h4>
                                 </Card.Description>
                                 <Rating rating={task.rating} maxRating={5} disabled/> <br></br>
                                 <Checkbox label= 'Mark Complete' onChange ={event => this.handleChange(task.id)}> </Checkbox> 
