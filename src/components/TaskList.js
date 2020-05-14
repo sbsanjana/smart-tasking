@@ -12,16 +12,18 @@ class TaskList extends React.Component {
 
 
     handleChange(taskId) {
-        console.log("child");
         this.props.parentMethod(taskId);
     }
     render() {
-       
+        const copyState = [].concat(this.props.tasks).sort((a,b) => a.rating < b.rating ? 1 : -1);
+        console.log("const");
         return (
         <div class="container-fluid">
            <Grid columns={3} style={{marginLeft:15, marginRight:15}} >
                  <Grid.Row>
-            {this.props.tasks.map((task) => {
+                
+            {copyState.map((task) => {
+                
                 if (task.completed == false && task.name != '') {
                 return (
                     <Grid.Column>
@@ -31,7 +33,7 @@ class TaskList extends React.Component {
                                     <h2>{task.name}</h2>
                                     
                                 </Card.Description>
-                                <Rating defaultRating={task.rating} maxRating={5}/> <br></br>
+                                <Rating rating={task.rating} maxRating={5} disabled/> <br></br>
                                 <Checkbox label= 'Mark Complete' onChange ={event => this.handleChange(task.id)}> </Checkbox> 
                             </Card.Content>
                         </Card>
@@ -39,6 +41,7 @@ class TaskList extends React.Component {
            
                 )
                 }
+         
              
             })}
               </Grid.Row>
