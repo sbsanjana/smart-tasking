@@ -1,10 +1,10 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import './components/RenderTask';
+// import './components/RenderTask';
 import './components/Task'
 import TaskList from './components/TaskList'
-import RenderTask from './components/RenderTask';
+// import RenderTask from './components/RenderTask';
 import {Form, Input, Header, Icon, Button,Card, Grid,  Rating, Segment} from 'semantic-ui-react'
 import { ConsoleWriter } from 'istanbul-lib-report';
 import { PropTypes } from 'react'
